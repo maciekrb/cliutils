@@ -67,7 +67,7 @@ def generate_report(infile,pkg_map):
     except AttributeError:
       pkg_desc = resolve_description(parts[1],pkg_map)
     finally:
-      print "%s\t%s\t%s" % (parts[1] if parts[1] else "--", parts[0] if parts[0] else "--", pkg_desc)
+      print "%s\t%s\t%s" % (parts[0] if parts[0] else "--", parts[1] if parts[1] else "--", pkg_desc)
 
 if __name__ == '__main__':
   if not len(sys.argv) > 1:
