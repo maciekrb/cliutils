@@ -25,12 +25,12 @@ def parse_diff_line(line):
     try: 
       cidx = line.index("<") # No older version
       e = line[0:cidx].rstrip()
-      parts = (e,None)
+      parts = [e,None]
     except ValueError:
       try: 
         cidx = line.index(">") # No new version
-        e = line[cidx:].lstrip()
-        parts = (None,e)
+        e = line[cidx+2:].lstrip()
+        parts = [None,e]
       except ValueError:
         return None
   return parts
@@ -62,8 +62,12 @@ def generate_report(infile,pkg_map):
       print "I dont known what should I do with this line : %s" % line
       sys.exit(1)
 
-    pkg_desc = resolve_description(parts[0],pkg_map)
-    print "%s\t%s\t%s" % (parts[1], parts[0], pkg_desc)
+    try:
+      pkg_desc = resolve_description(parts[0],pkg_map)
+    except AttributeError:
+      pkg_desc = resolve_description(parts[1],pkg_map)
+    finally:
+      print "%s\t%s\t%s" % (parts[1] if parts[1] else "--", parts[0] if parts[0] else "--", pkg_desc)
 
 if __name__ == '__main__':
   if not len(sys.argv) > 1:
