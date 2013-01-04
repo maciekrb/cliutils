@@ -32,8 +32,18 @@ Would produce :
       "hits" : "900"
     }
 ```
+
+By calling the following command line : 
+```cli
+  csv2json.py path/to/file.csv
+```
+
 Optional parameters allow to inject static attributes to every row, or group some of the fields
-into objects. i.e passing the argument -o site=visits,hits would produce:
+into objects: 
+```cli
+  csv2json.py -o site=visits,hits path/to/file.csv
+```
+
 ```json
 
     { 
@@ -58,6 +68,9 @@ into objects. i.e passing the argument -o site=visits,hits would produce:
     }
 ```
 Similarly, switching -o argument for -l would group the parameters into an array instead of an object :
+```cli
+  csv2json.py -l site=visits,hits path/to/file.csv
+```
 ```json
 
     { 
