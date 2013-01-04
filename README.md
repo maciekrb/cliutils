@@ -89,6 +89,3 @@ Similarly, switching -o argument for -l would group the parameters into an array
     }
 ```
 
-TODO
-----
-- Enforce types (integers, floats or bools) to be preserved instead of returning strings

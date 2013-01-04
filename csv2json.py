@@ -76,6 +76,21 @@ def add_to_dict(target,items,overwrite=False):
     target[i] = v
   return target
 
+def to_type(val):
+  """
+  Attempts to convert val to a native type
+  Returns:
+    - val converted to given type if possible
+  """
+  try:
+    val = int(val)
+  except ValueError:
+    bl = val.lower()
+    if bl == 'true' or bl == 'false':
+      val = bool(val)
+  finally:
+    return val
+
 def group(row,objects,as_list=False):
   """
   Groups elements of row dictionary in groups specified by objects dict
@@ -95,7 +110,7 @@ def group(row,objects,as_list=False):
   nrow = {}
   for rowkey,rowval in row.iteritems():
     if not objects:
-      nrow[rowkey] = rowval
+      nrow[rowkey] = to_type(rowval)
     else:
       for obkey,obfields in objects.iteritems():
         if rowkey in obfields:
@@ -103,12 +118,12 @@ def group(row,objects,as_list=False):
             nrow[obkey] = {} if not as_list else []
 
           if not as_list:
-            nrow[obkey][rowkey] = rowval
+            nrow[obkey][rowkey] = to_type(rowval)
           else :
-            nrow[obkey].append(rowval)
+            nrow[obkey].append(to_type(rowval))
 
         else:
-          nrow[rowkey] = rowval
+          nrow[rowkey] = to_type(rowval)
 
   return nrow
 
@@ -145,6 +160,7 @@ if __name__ == "__main__":
                       help="Same as -o but groups as an array instead of obj, ex. -l data=name,last_name,age")
   parser.add_argument("-x","--overwrite", action="store_true",
                       help="When specified -i options will overwrite existing keys when overlapping")
+  parser.add_argument("-t","--types",help="Specify column data types as a colon separated list i.e int,bool,str")
 
   args = parser.parse_args()
 
