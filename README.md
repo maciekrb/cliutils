@@ -14,7 +14,7 @@ from the first row found in the CSV file, so a file formatted as follows :
     12/1/2012,Clark,Kent,34,2,900
 
 Would produce :
-
+```json
     { 
       "date" : "12/1/2012", 
       "name" : "Peter", 
@@ -31,9 +31,10 @@ Would produce :
       "visits" : "2",
       "hits" : "900"
     }
-
+```
 Optional parameters allow to inject static attributes to every row, or group some of the fields
 into objects. i.e passing the argument -o site=visits,hits would produce:
+```json
 
     { 
       "date" : "12/1/2012", 
@@ -55,8 +56,25 @@ into objects. i.e passing the argument -o site=visits,hits would produce:
         "hits" : "900"
       }
     }
+```
+Similarly, switching -o argument for -l would group the parameters into an array instead of an object :
+```json
 
-Similarly, switchin -o for -l would group the parameters in an array
+    { 
+      "date" : "12/1/2012", 
+      "name" : "Peter", 
+      "last_name" : "Parker",
+      "age" : "24",
+      "site" : [ "4", "300" ]
+    }
+    { 
+      "date" : "12/1/2012", 
+      "name" : "Clark", 
+      "last_name" : "Kent",
+      "age" : "34",
+      "site" : [ "2", "900"]
+    }
+```
 
 TODO
 ----
