@@ -85,9 +85,12 @@ def to_type(val):
   try:
     val = int(val)
   except ValueError:
-    bl = val.lower()
-    if bl == 'true' or bl == 'false':
-      val = bool(val)
+    try:
+      val = float(val)
+    except ValueError:
+      bl = val.lower()
+      if bl == 'true' or bl == 'false':
+        val = bool(val)
   finally:
     return val
 
@@ -127,22 +130,20 @@ def group(row,objects,as_list=False):
 
   return nrow
 
-def parse_file(filename,delimiter,inserts={},overwrite=False,objects=None,lists=None):
-
-  with open(filename,'r') as csvfile:
-    inserts = parse_key_value_args(inserts)
-    objects = { k : v.split(',') for k,v in parse_key_value_args(objects).iteritems() }
-    lists = { k : v.split(',') for k,v in parse_key_value_args(lists).iteritems() }
-    csvreader = csv.DictReader(csvfile,delimiter=delimiter,quotechar='"')
-    for row in csvreader:
-      if inserts:
-        row = add_to_dict(row,inserts,overwrite)
-      if objects:
-        row = group(row,objects)
-      if lists:
-        row = group(row,lists,as_list=True)
-      
-      print json_encode(row)
+def parse_data(csvdata,delimiter,inserts={},overwrite=False,objects=None,lists=None):
+  inserts = parse_key_value_args(inserts)
+  objects = { k : v.split(',') for k,v in parse_key_value_args(objects).iteritems() }
+  lists = { k : v.split(',') for k,v in parse_key_value_args(lists).iteritems() }
+  csvreader = csv.DictReader(csvdata,delimiter=delimiter,quotechar='"')
+  for row in csvreader:
+    if inserts:
+      row = add_to_dict(row,inserts,overwrite)
+    if objects:
+      row = group(row,objects)
+    if lists:
+      row = group(row,lists,as_list=True)
+    
+    print json_encode(row)
 
 if __name__ == "__main__":
 
@@ -150,7 +151,8 @@ if __name__ == "__main__":
     Converts CSV file into JSON by using first row in the file as attribute names.
     Additional arguments allow to insert or group columns into objects.
     """)
-  parser.add_argument("file", help="File containing CSV data to be transformed into JSON")
+  parser.add_argument("file", nargs='?', type=argparse.FileType('r'), default = '-', 
+                      help="File containing CSV data to be transformed into JSON")
   parser.add_argument("-d","--delim", default=",", help="Field delimiter char (default: ','")
   parser.add_argument("-i", metavar="field=value", action="append",
                       help="Insert a parameter with its value in every row, ex. -i field=value")
@@ -165,7 +167,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   try:
-    parse_file(
+    parse_data(
       args.file,
       delimiter=args.delim,
       inserts=args.i,
