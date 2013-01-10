@@ -89,3 +89,54 @@ Similarly, switching -o argument for -l would group the parameters into an array
     }
 ```
 
+randfile
+========
+
+randfile is a simple random file with random creating / modifying script. It is useful for workshops
+that illustrate version control workflows.
+
+By calling the following command line : 
+```cli
+  randfile.py create -n 3
+```
+
+The script will produce 3 random files with random content in the current directory.
+
+In the other hand the line :
+```cli
+  randfile.py modify -n 3
+```
+
+will randomly modify 3 files in the current directory. The content inside of the files is
+modified per line, and every line has a 50% chance of being modified.
+
+Here is a sample of the produced files and data : 
+
+```txt
+--> ashnt.php
+5POkWe gQJX1R
+uljQjH 5FhznX KDqJML
+UxFw9O
+8NYBD3
+YJfZi4
+gSIEHu
+
+--> bxjny.php
+gYXs5M sW5wlO 6VsHF1 GEY6jq
+OVGRbC 9AyZYz
+Ngks3F
+7X5aco SEecce XOb3HI WqBxsN
+CWvidf ib77XY
+
+--> opjeb.php
+pLg4iI
+7j1Pdm nCZOUW f21fLY
+mZbkLf pOurrg
+5P47k5
+0ObJMR nu8yTH aLcHRY
+rC5zYz Ykm7l5 wsHDCR 91Ppjl
+kwhiwB rIgCZD ETQiEM CM3mnQ ZpHMJu
+g23gXl
+
+```
+
