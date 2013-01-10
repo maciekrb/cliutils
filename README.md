@@ -92,7 +92,7 @@ Similarly, switching -o argument for -l would group the parameters into an array
 randfile
 ========
 
-randfile is a simple random file with random creating / modifying script. It is useful for workshops
+randfile is a simple random creating / modifying script. It is useful for workshops
 that illustrate version control workflows.
 
 By calling the following command line : 
